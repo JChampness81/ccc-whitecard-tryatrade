@@ -198,6 +198,15 @@
   .form-contact{max-width:680px;margin:22px auto 0;font-size:13px;color:#5a6675;line-height:1.6;text-align:center}
   .form-contact a{color:var(--signal)}
 
+  /* live status */
+  .pill.check{background:#5a6675;color:#fff}
+  .intake-note{display:block;margin-top:6px;font-size:13px;font-weight:600;color:var(--warn)}
+  .opt-row.is-disabled{opacity:.5;background:#f1f2f4;cursor:not-allowed}
+  .opt-row.is-disabled input{cursor:not-allowed}
+  .opt-row.is-disabled .intake-note{color:#6b7280}
+  .opt-row.is-wait{border-color:#f0d9ad}
+  .closed-banner{background:var(--warn-bg);border:1.5px solid #f0d9ad;border-radius:10px;padding:16px 18px;color:#5c3a00;font-weight:600;font-size:15px;line-height:1.5}
+
   @media (prefers-reduced-motion: reduce){
     .blueprint path,.blueprint line,.blueprint polyline{animation:none;stroke-dashoffset:0}
     .blueprint .dim-label,.eyebrow,.title .a,.title .b,.urgent-wrap,.strip,.board,.cta-wrap{animation:none;opacity:1;transform:none}
@@ -252,8 +261,8 @@
 
       <div class="board" aria-label="Live intake availability">
         <p class="board-label">Intake availability</p>
-        <div class="chip"><span class="when">July<small>TUE 28 – WED 29 JUL</small></span><span class="pill open">Open</span></div>
-        <div class="chip"><span class="when">August<small>TUE 11 – WED 12 AUG</small></span><span class="pill wait">Waitlist</span></div>
+        <div class="chip" data-intake="White Card &amp; Construction Try-a-Trade | July 2026"><span class="when">July<small>TUE 28 – WED 29 JUL</small></span><span class="pill check">Checking…</span></div>
+        <div class="chip" data-intake="White Card &amp; Construction Try-a-Trade | August 2026"><span class="when">August<small>TUE 11 – WED 12 AUG</small></span><span class="pill check">Checking…</span></div>
       </div>
 
       <div class="cta-wrap"><a class="cta" href="#register">Register your interest <span class="arr">→</span></a></div>
@@ -269,6 +278,10 @@
         Training delivered by Adelaide Training &amp; Employment Centre (ATEC).<br>
         Register your interest to receive your paperwork. Places are allocated in order of paperwork returned. Limited spaces available, get in quick!
       </p>
+
+      <div class="closed-banner" id="closedBanner" style="display:none">
+        Registrations are currently closed — both intakes are full. For questions, contact Rachael Savage or Jordan Champness below.
+      </div>
 
       <div class="card">
         <form id="eoi" novalidate>
@@ -345,11 +358,11 @@
               <div class="choices" role="radiogroup" aria-label="Preferred program dates">
                 <label class="opt-row has">
                   <input type="radio" name="Intake" value="White Card &amp; Construction Try-a-Trade | July 2026" required>
-                  <span><strong>July intake</strong> — Tue 28 &amp; Wed 29 July 2026</span>
+                  <span><strong>July intake</strong> — Tue 28 &amp; Wed 29 July 2026<span class="intake-note"></span></span>
                 </label>
                 <label class="opt-row has">
                   <input type="radio" name="Intake" value="White Card &amp; Construction Try-a-Trade | August 2026">
-                  <span><strong>August intake</strong> — Tue 11 &amp; Wed 12 August 2026</span>
+                  <span><strong>August intake</strong> — Tue 11 &amp; Wed 12 August 2026<span class="intake-note"></span></span>
                 </label>
               </div>
               <p class="field-error">Please choose a preferred intake.</p>
@@ -441,6 +454,7 @@
    regenerate the SAS URL in Power Automate if ever abused.
    ============================================================ */
 const FLOW_URL = "https://default73bbf4e906884946aea9bd0bb40ecf.07.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/cef74d4e8f7f4b688c48788676753e06/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=kyKsJKXRKjudjkv860Pt3YWajbPV_If4V6628j0zaw4";
+const STATUS_URL = "https://default73bbf4e906884946aea9bd0bb40ecf.07.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f05d7d392f994c3ea961d84eb238ccfc/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=cygfbJx92roaJflh7HImYVby3Hc5F2bsq0iQGenHmm4";
 
 const form = document.getElementById("eoi");
 const submitBtn = document.getElementById("submitBtn");
@@ -554,6 +568,61 @@ form.addEventListener("submit", async (e) => {
 
 form.addEventListener("input", (e) => { const w = e.target.closest("[data-field],[data-group]"); if(w) w.classList.remove("invalid"); });
 form.addEventListener("change", (e) => { const w = e.target.closest("[data-field],[data-group]"); if(w) w.classList.remove("invalid"); });
+
+/* ---- live intake status: reads FlagState, sets chips + drives the radios ---- */
+const STATE_META = {
+  Open:     { pill:"open",   label:"Open" },
+  Waitlist: { pill:"wait",   label:"Waitlist" },
+  Closed:   { pill:"closed", label:"Closed" }
+};
+
+async function loadStatus(){
+  let byName = {};
+  try{
+    const res = await fetch(STATUS_URL, { method:"GET" });
+    const data = await res.json();
+    if(data && Array.isArray(data.intakes)){
+      data.intakes.forEach(i => { if(i && i.name) byName[i.name] = (i.flagState || "").trim(); });
+    }
+  }catch(_){ byName = {}; }   // fetch failed -> leave empty -> safe fallback below
+
+  // chips
+  document.querySelectorAll(".chip[data-intake]").forEach(chip => {
+    const pill = chip.querySelector(".pill");
+    const meta = STATE_META[byName[chip.dataset.intake]];
+    if(meta){ pill.className = "pill " + meta.pill; pill.textContent = meta.label; }
+    else { pill.className = "pill check"; pill.textContent = "Check availability"; }
+  });
+
+  // radios — Closed disables, Waitlist annotates, Open/unknown stay selectable
+  const radios = [...document.querySelectorAll('input[name="Intake"]')];
+  let closedCount = 0;
+  radios.forEach(radio => {
+    const row = radio.closest(".opt-row");
+    const note = row.querySelector(".intake-note");
+    const state = byName[radio.value];
+    radio.disabled = false;
+    row.classList.remove("is-disabled","is-wait");
+    if(note) note.textContent = "";
+    if(state === "Closed"){
+      radio.disabled = true; radio.checked = false;
+      row.classList.add("is-disabled");
+      if(note) note.textContent = "This intake is closed.";
+      closedCount++;
+    } else if(state === "Waitlist"){
+      row.classList.add("is-wait");
+      if(note) note.textContent = "This date is full — you'd be joining the waitlist.";
+    }
+  });
+
+  // both closed -> swap the form for the closed message
+  const allClosed = radios.length > 0 && closedCount === radios.length;
+  const banner = document.getElementById("closedBanner");
+  const card = document.querySelector(".card");
+  if(banner) banner.style.display = allClosed ? "block" : "none";
+  if(card) card.style.display = allClosed ? "none" : "";
+}
+loadStatus();
 </script>
 </body>
 </html>
