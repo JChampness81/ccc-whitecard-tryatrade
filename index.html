@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>White Card &amp; Construction Try-a-Trade 2026 — Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@500;700;800;900&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16181D; --ink-soft:#54565f;
+    --sky-1:#1462C8; --sky-2:#4FB4F0; --sky-3:#8FD6FB;
+    --hi-vis:#FFD21F; --hi-vis-ink:#3A2F00;
+    --signal:#0B3D91;
+    --paper:#FFFFFF; --mist:#EEF3F9; --field:#fbfbfc;
+    --line:#d9dadf; --line-strong:#b9bbc2;
+    --ok:#137a4b; --ok-bg:#eaf6ef;
+    --warn:#9a5b00; --warn-bg:#fdf3e2;
+    --err:#b3261e; --err-bg:#fcebea;
+    --disp:"Saira",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+    --mono:"Space Mono",ui-monospace,monospace;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:var(--body);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased}
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;overflow:hidden;min-height:88vh;display:flex;align-items:center;
+    background:
+      radial-gradient(120% 90% at 85% 8%, var(--sky-3) 0%, rgba(143,214,251,0) 42%),
+      linear-gradient(150deg, var(--sky-1) 0%, var(--sky-2) 62%, var(--sky-3) 100%);
+  }
+  .blueprint{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .blueprint path,.blueprint line,.blueprint polyline{
+    stroke:rgba(255,255,255,.55);fill:none;stroke-width:2;
+    stroke-dasharray:var(--len,1200);stroke-dashoffset:var(--len,1200);
+    animation:draw 1.5s ease forwards;
+  }
+  .blueprint .dim{stroke:rgba(255,255,255,.8);stroke-width:1.5}
+  .blueprint .dim-label{
+    fill:#fff;font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.05em;
+    opacity:0;animation:fade .5s ease forwards;stroke:none;
+  }
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fade{to{opacity:1}}
+
+  .hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:48px 28px;width:100%}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:clamp(13px,1.5vw,16px);letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(255,255,255,.9);font-weight:500;margin:0 0 20px;
+    opacity:0;animation:rise .6s ease .15s forwards;
+  }
+  .eyebrow .org{
+    color:#fff;font-weight:700;
+    border-bottom:3px solid var(--hi-vis);padding-bottom:2px;
+  }
+
+  .title{
+    font-family:var(--disp);color:var(--ink);font-weight:900;line-height:.8;
+    letter-spacing:-.02em;text-transform:uppercase;
+    font-size:clamp(44px,8.4vw,108px);margin:0;max-width:14ch;
+  }
+  .title .a{display:block;opacity:0;animation:rise .7s cubic-bezier(.2,.7,.2,1) .35s forwards;padding-bottom:.06em}
+  .title .b{display:block;position:relative;z-index:3;opacity:0;animation:rise .7s cubic-bezier(.2,.7,.2,1) .5s forwards;text-shadow:0 2px 0 rgba(255,255,255,.18)}
+  .title .hl{
+    color:var(--hi-vis-ink);
+    background-image:linear-gradient(var(--hi-vis), var(--hi-vis));
+    background-repeat:no-repeat;
+    background-position:0 90%;          /* vertical placement of the band */
+    background-size:100% 1.2em;        /* 100% wide, 0.72em tall  ← height knob */
+    padding:0 .12em;
+    box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  }
+
+  /* urgent slide-in line (drives in, hard stop, holds, takes off) */
+  .urgent-wrap{overflow:hidden;width:100%;margin:24px 0 0;opacity:0;animation:rise .7s ease .7s forwards}
+  .urgent{
+    display:inline-block;font-family:var(--disp);font-weight:800;text-transform:uppercase;
+    font-size:clamp(15px,2.3vw,24px);letter-spacing:.02em;white-space:nowrap;
+    background:var(--hi-vis);color:var(--hi-vis-ink);padding:9px 18px;border-radius:8px;
+    box-shadow:0 3px 0 #c9a200;animation:speedIn 7s infinite;animation-delay:1.3s;
+  }
+  @keyframes speedIn{
+    0%  {transform:translateX(-120vw) skewX(-14deg);opacity:0;animation-timing-function:cubic-bezier(.13,.85,.16,1)}
+    9%  {transform:translateX(0) skewX(0);opacity:1;animation-timing-function:linear}
+    58% {transform:translateX(0) skewX(0);opacity:1;animation-timing-function:cubic-bezier(.6,0,.9,.2)}
+    70% {transform:translateX(120vw) skewX(12deg);opacity:0;animation-timing-function:linear}
+    100%{transform:translateX(120vw) skewX(12deg);opacity:0}
+  }
+
+  .strip{
+    display:flex;flex-wrap:wrap;margin:26px 0 0;border:2px solid rgba(255,255,255,.7);
+    border-radius:12px;overflow:hidden;width:fit-content;max-width:100%;
+    opacity:0;animation:rise .7s ease .85s forwards;
+  }
+  .strip span{
+    font-family:var(--mono);font-weight:700;color:#fff;font-size:14px;letter-spacing:.04em;
+    padding:11px 16px;border-right:2px solid rgba(255,255,255,.45);white-space:nowrap;
+  }
+  .strip span:last-child{border-right:0}
+  .strip .free{background:var(--hi-vis);color:var(--hi-vis-ink)}
+
+  .board{margin:30px 0 0;display:flex;flex-wrap:wrap;gap:12px;opacity:0;animation:rise .7s ease 1s forwards}
+  .board-label{width:100%;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.9);font-weight:700;margin:0 0 2px}
+  .chip{display:flex;align-items:center;gap:12px;background:rgba(11,30,55,.78);border:1.5px solid rgba(255,255,255,.25);border-radius:12px;padding:12px 16px;color:#fff}
+  .chip .when{font-family:var(--disp);font-weight:800;font-size:16px}
+  .chip .when small{display:block;font-family:var(--mono);font-weight:400;font-size:11px;opacity:.75;letter-spacing:.08em}
+  .pill{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.1em;padding:5px 11px;border-radius:999px;text-transform:uppercase}
+  .pill.open{background:#1f9d57;color:#fff}
+  .pill.wait{background:var(--hi-vis);color:var(--hi-vis-ink)}
+  .pill.closed{background:#3a3f48;color:#cfd2d8}
+
+  .cta-wrap{margin:34px 0 0;opacity:0;animation:rise .7s ease 1.15s forwards}
+  .cta{
+    display:inline-flex;align-items:center;gap:12px;cursor:pointer;border:0;text-decoration:none;
+    font-family:var(--disp);font-weight:800;font-size:20px;letter-spacing:.01em;text-transform:uppercase;
+    background:var(--hi-vis);color:var(--hi-vis-ink);padding:18px 30px;border-radius:14px;
+    box-shadow:0 5px 0 #c9a200,0 14px 28px rgba(0,0,0,.22);
+  }
+  .cta:hover{filter:brightness(1.04)}
+  .cta:active{transform:translateY(3px);box-shadow:0 2px 0 #c9a200,0 8px 18px rgba(0,0,0,.22)}
+  .cta .arr{font-size:24px;line-height:1}
+  .cta:focus-visible{outline:3px solid #fff;outline-offset:3px}
+
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+  /* ============ REGISTER / FORM ============ */
+  .mount{background:var(--mist);padding:60px 20px 84px}
+  .mount-inner{max-width:680px;margin:0 auto}
+  .mount h2{font-family:var(--disp);font-weight:800;font-size:clamp(26px,4vw,38px);text-transform:uppercase;letter-spacing:-.01em;margin:0 0 12px}
+  .lead{font-size:15.5px;color:#48515e;margin:0 0 28px;line-height:1.65}
+  .lead strong{color:var(--ink)}
+
+  .card{background:var(--paper);border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.07);padding:8px 22px 26px}
+  fieldset{border:0;margin:0;padding:24px 0 4px;border-top:1px solid var(--line)}
+  fieldset:first-of-type{border-top:0}
+  legend{padding:0;font-family:var(--disp);font-size:14px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:10px}
+  legend .n{flex:none;width:24px;height:24px;border-radius:6px;background:var(--hi-vis);color:var(--hi-vis-ink);font-size:13px;display:grid;place-items:center;font-weight:800}
+
+  .field{margin:18px 0 0}
+  .field > label,.group > .group-label{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+  .req{color:var(--err);font-weight:700}
+  .opt{color:var(--ink-soft);font-weight:500;font-size:13px}
+  .help{color:var(--ink-soft);font-size:13px;line-height:1.45;margin:0 0 8px}
+  .help a{color:var(--signal)}
+
+  input[type=text],input[type=email],input[type=tel],select{
+    width:100%;padding:12px 13px;font-size:16px;color:var(--ink);background:var(--field);
+    border:1.5px solid var(--line-strong);border-radius:8px;appearance:none;-webkit-appearance:none;font-family:var(--body);
+  }
+  select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%2354565f' stroke-width='1.7' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 13px center;padding-right:38px}
+  input:focus,select:focus{outline:none;border-color:var(--signal);box-shadow:0 0 0 3px rgba(11,61,145,.16)}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row > .field{flex:1 1 220px;margin-top:18px}
+
+  .choices{display:flex;flex-direction:column;gap:8px;margin-top:2px}
+  .opt-row{display:flex;gap:11px;align-items:flex-start;border:1.5px solid var(--line);border-radius:8px;padding:12px 13px;cursor:pointer;background:var(--field)}
+  .opt-row:hover{border-color:var(--line-strong)}
+  .opt-row input{margin:2px 0 0;flex:none;width:18px;height:18px;accent-color:var(--signal);cursor:pointer}
+  .opt-row span{font-size:15px;line-height:1.35}
+  .opt-row.has input:checked ~ span{font-weight:600}
+  .inline{flex-direction:row;flex-wrap:wrap}
+  .inline .opt-row{flex:1 1 120px}
+
+  .permission{background:var(--field);border:1.5px solid var(--line);border-radius:8px;padding:14px 15px;margin-top:6px}
+  .permission p{margin:0 0 12px;font-size:14px;color:var(--ink-soft);line-height:1.5}
+  .permission .opt-row{background:#fff}
+
+  .field.invalid input,.field.invalid select,.group.invalid .opt-row,.group.invalid .permission{border-color:var(--err);background:var(--err-bg)}
+  .field-error{color:var(--err);font-size:13px;font-weight:600;margin:7px 0 0;display:none}
+  .field.invalid .field-error,.group.invalid .field-error{display:block}
+
+  .actions{margin-top:28px}
+  button.submit{width:100%;border:0;border-radius:8px;cursor:pointer;background:var(--hi-vis);color:var(--hi-vis-ink);font-family:var(--disp);font-size:17px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;padding:16px 18px;box-shadow:0 3px 0 #c9a200}
+  button.submit:hover{filter:brightness(1.03)}
+  button.submit:active{transform:translateY(2px);box-shadow:0 1px 0 #c9a200}
+  button.submit:disabled{opacity:.6;cursor:progress}
+  button.submit:focus-visible{outline:3px solid var(--signal);outline-offset:2px}
+
+  .result{display:none;margin-top:20px;border-radius:10px;padding:18px;font-size:15.5px;line-height:1.55}
+  .result h3{margin:0 0 6px;font-size:18px;font-family:var(--disp)}
+  .result.show{display:block}
+  .result.ok{background:var(--ok-bg);border:1.5px solid #bfe3cd;color:#0c5132}
+  .result.ok h3{color:var(--ok)}
+  .result.dupe{background:var(--warn-bg);border:1.5px solid #f0d9ad;color:#5c3a00}
+  .result.dupe h3{color:var(--warn)}
+  .result.err{background:var(--err-bg);border:1.5px solid #f0c2bf;color:#7a1812}
+  .result.err h3{color:var(--err)}
+
+  .summary-error{display:none;margin-top:18px;background:var(--err-bg);border:1.5px solid #f0c2bf;border-radius:8px;padding:12px 14px;color:#7a1812;font-size:14px;font-weight:600}
+  .summary-error.show{display:block}
+
+  .form-contact{max-width:680px;margin:22px auto 0;font-size:13px;color:#5a6675;line-height:1.6;text-align:center}
+  .form-contact a{color:var(--signal)}
+
+  @media (prefers-reduced-motion: reduce){
+    .blueprint path,.blueprint line,.blueprint polyline{animation:none;stroke-dashoffset:0}
+    .blueprint .dim-label,.eyebrow,.title .a,.title .b,.urgent-wrap,.strip,.board,.cta-wrap{animation:none;opacity:1;transform:none}
+    .urgent{animation:none;transform:none}
+  }
+  @media (max-width:560px){
+    .hero{min-height:auto;padding:8px 0 24px}
+    .strip span{font-size:12.5px;padding:10px 12px}
+    .chip{flex:1 1 100%}
+    .cta{width:100%;justify-content:center}
+    .card{padding:6px 16px 22px}
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <svg class="blueprint" viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <line x1="80" y1="600" x2="1120" y2="600" style="--len:1040;animation-delay:.1s"/>
+      <polyline points="720,600 720,300 900,210 1080,300 1080,600" style="--len:1180;animation-delay:.25s"/>
+      <line x1="720" y1="300" x2="1080" y2="300" style="--len:360;animation-delay:.7s"/>
+      <line x1="900" y1="210" x2="900" y2="300" style="--len:90;animation-delay:.8s"/>
+      <line x1="800" y1="300" x2="800" y2="600" style="--len:300;animation-delay:.85s"/>
+      <line x1="1000" y1="300" x2="1000" y2="600" style="--len:300;animation-delay:.9s"/>
+      <line x1="720" y1="450" x2="1080" y2="450" style="--len:360;animation-delay:.95s"/>
+      <line class="dim" x1="720" y1="170" x2="1080" y2="170" style="--len:360;animation-delay:1.05s"/>
+      <line class="dim" x1="720" y1="158" x2="720" y2="182" style="--len:24;animation-delay:1.05s"/>
+      <line class="dim" x1="1080" y1="158" x2="1080" y2="182" style="--len:24;animation-delay:1.05s"/>
+      <text class="dim-label" x="855" y="162" style="animation-delay:1.5s">2 DAYS</text>
+      <line class="dim" x1="670" y1="300" x2="670" y2="600" style="--len:300;animation-delay:1.15s"/>
+      <line class="dim" x1="658" y1="300" x2="682" y2="300" style="--len:24;animation-delay:1.15s"/>
+      <line class="dim" x1="658" y1="600" x2="682" y2="600" style="--len:24;animation-delay:1.15s"/>
+      <text class="dim-label" x="612" y="455" style="animation-delay:1.6s">9–3</text>
+    </svg>
+
+    <div class="hero-inner">
+      <p class="eyebrow"><span class="org">Charles Campbell College</span> × ATEC — 2026</p>
+      <h1 class="title">
+        <span class="a"><span class="hl">White Card</span></span>
+        <span class="b">&amp; Try-a-Trade</span>
+      </h1>
+
+      <div class="urgent-wrap"><span class="urgent">Get in quick — limited spaces available</span></div>
+
+      <div class="strip" role="list" aria-label="Key facts">
+        <span class="free" role="listitem">FREE</span>
+        <span role="listitem">2 DAYS</span>
+        <span role="listitem">9AM–3PM</span>
+        <span role="listitem">CHARLES CAMPBELL COLLEGE</span>
+      </div>
+
+      <div class="board" aria-label="Live intake availability">
+        <p class="board-label">Intake availability</p>
+        <div class="chip"><span class="when">July<small>TUE 28 – WED 29 JUL</small></span><span class="pill open">Open</span></div>
+        <div class="chip"><span class="when">August<small>TUE 11 – WED 12 AUG</small></span><span class="pill wait">Waitlist</span></div>
+      </div>
+
+      <div class="cta-wrap"><a class="cta" href="#register">Register your interest <span class="arr">→</span></a></div>
+    </div>
+  </header>
+
+  <!-- ===== REGISTER ===== -->
+  <section class="mount" id="register">
+    <div class="mount-inner">
+      <h2>Register your interest</h2>
+      <p class="lead">
+        Two days on-site at Charles Campbell College, 9:00am–3:00pm. <strong>Free!</strong><br>
+        Training delivered by Adelaide Training &amp; Employment Centre (ATEC).<br>
+        Register your interest to receive your paperwork. Places are allocated in order of paperwork returned. Limited spaces available, get in quick!
+      </p>
+
+      <div class="card">
+        <form id="eoi" novalidate>
+
+          <fieldset>
+            <legend><span class="n">1</span> Your details</legend>
+            <div class="row">
+              <div class="field" data-field>
+                <label for="fn">First name <span class="req" aria-hidden="true">*</span></label>
+                <input id="fn" name="StudentNameFirst" type="text" autocomplete="given-name" required>
+                <p class="field-error">Please enter your first name.</p>
+              </div>
+              <div class="field" data-field>
+                <label for="ln">Last name <span class="req" aria-hidden="true">*</span></label>
+                <input id="ln" name="StudentNameLast" type="text" autocomplete="family-name" required>
+                <p class="field-error">Please enter your last name.</p>
+              </div>
+            </div>
+            <div class="field" data-field>
+              <label for="mob">Mobile number <span class="req" aria-hidden="true">*</span></label>
+              <input id="mob" name="StudentContactNumber" type="tel" inputmode="tel" autocomplete="tel" required>
+              <p class="field-error">Please enter a mobile number.</p>
+            </div>
+            <div class="field" data-field data-validate="email">
+              <label for="se">School email <span class="req" aria-hidden="true">*</span></label>
+              <p class="help">Your @schools.sa.edu.au address.</p>
+              <input id="se" name="StudentSchoolEmail" type="email" inputmode="email" autocomplete="email" required>
+              <p class="field-error">Please enter a valid @schools.sa.edu.au email address.</p>
+            </div>
+            <div class="field" data-field>
+              <label for="ae">Personal email <span class="opt">(optional)</span></label>
+              <p class="help">A backup we can reach you on.</p>
+              <input id="ae" name="StudentAltEmail" type="email" inputmode="email">
+            </div>
+            <div class="field" data-field>
+              <label for="usi">USI (Unique Student Identifier) <span class="req" aria-hidden="true">*</span></label>
+              <p class="help">Don't have one? Create it free in about 5 minutes at
+                <a href="https://www.usi.gov.au/students/create-your-usi" target="_blank" rel="noopener">usi.gov.au</a>.
+                You'll need one form of ID — a Medicare card is easiest. Under 18? A parent can help you set it up.</p>
+              <input id="usi" name="USI" type="text" maxlength="10" autocomplete="off" required>
+              <p class="field-error">Please enter your USI.</p>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span class="n">2</span> Your school &amp; program</legend>
+            <div class="field" data-field>
+              <label for="school">Home school <span class="req" aria-hidden="true">*</span></label>
+              <p class="help">Select your current school.</p>
+              <select id="school" name="HomeSchool" required>
+                <option value="" disabled selected>Choose your school…</option>
+                <option>Adelaide High School</option>
+                <option>Adelaide Botanic High School</option>
+                <option>Charles Campbell College</option>
+                <option>Glenunga International High School</option>
+                <option>Marryatville High School</option>
+                <option>Marden Senior College</option>
+                <option>Norwood International High School</option>
+                <option>Open Access College</option>
+                <option>Morialta Secondary College</option>
+              </select>
+              <p class="field-error">Please select your school.</p>
+            </div>
+            <div class="group" data-group>
+              <span class="group-label">Year level <span class="req" aria-hidden="true">*</span></span>
+              <div class="choices inline" role="radiogroup" aria-label="Year level">
+                <label class="opt-row has"><input type="radio" name="YearLevel" value="10" required><span>Year 10</span></label>
+                <label class="opt-row has"><input type="radio" name="YearLevel" value="11"><span>Year 11</span></label>
+              </div>
+              <p class="field-error">Please select your year level.</p>
+            </div>
+            <div class="group" data-group style="margin-top:18px">
+              <span class="group-label">Preferred program dates <span class="req" aria-hidden="true">*</span></span>
+              <div class="choices" role="radiogroup" aria-label="Preferred program dates">
+                <label class="opt-row has">
+                  <input type="radio" name="Intake" value="White Card &amp; Construction Try-a-Trade | July 2026" required>
+                  <span><strong>July intake</strong> — Tue 28 &amp; Wed 29 July 2026</span>
+                </label>
+                <label class="opt-row has">
+                  <input type="radio" name="Intake" value="White Card &amp; Construction Try-a-Trade | August 2026">
+                  <span><strong>August intake</strong> — Tue 11 &amp; Wed 12 August 2026</span>
+                </label>
+              </div>
+              <p class="field-error">Please choose a preferred intake.</p>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span class="n">3</span> Your 2027 plans</legend>
+            <div class="group" data-group>
+              <span class="group-label">Which course are you most likely to apply for in 2027? <span class="req" aria-hidden="true">*</span></span>
+              <p class="help">This program is prioritised for these pathways. Pick the closest — it doesn't lock you in.</p>
+              <div class="choices" role="radiogroup" aria-label="2027 course intention">
+                <label class="opt-row has"><input type="radio" name="IntendToApply" value="Certificate II Construction Pathways at CCC" required><span>Certificate II Construction Pathways at CCC</span></label>
+                <label class="opt-row has"><input type="radio" name="IntendToApply" value="Certificate II Electrotechnology at CCC"><span>Certificate II Electrotechnology at CCC</span></label>
+                <label class="opt-row has"><input type="radio" name="IntendToApply" value="Certificate II Construction or Electrotechnology at another site"><span>Certificate II Construction or Electrotechnology at another site</span></label>
+              </div>
+              <p class="field-error">Please choose one option.</p>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span class="n">4</span> Parent / carer details</legend>
+            <div class="row">
+              <div class="field" data-field>
+                <label for="pfn">Parent / carer first name <span class="req" aria-hidden="true">*</span></label>
+                <input id="pfn" name="ParentNameFirst" type="text" autocomplete="off" required>
+                <p class="field-error">Please enter a first name.</p>
+              </div>
+              <div class="field" data-field>
+                <label for="pln">Parent / carer last name <span class="req" aria-hidden="true">*</span></label>
+                <input id="pln" name="ParentNameLast" type="text" autocomplete="off" required>
+                <p class="field-error">Please enter a last name.</p>
+              </div>
+            </div>
+            <div class="field" data-field>
+              <label for="pmob">Parent / carer mobile <span class="req" aria-hidden="true">*</span></label>
+              <input id="pmob" name="ParentContactNumber" type="tel" inputmode="tel" required>
+              <p class="field-error">Please enter a mobile number.</p>
+            </div>
+            <div class="field" data-field data-validate="email">
+              <label for="pem">Parent / carer email <span class="req" aria-hidden="true">*</span></label>
+              <p class="help">Your confirmation and the paperwork are sent here.</p>
+              <input id="pem" name="ParentEmail" type="email" inputmode="email" required>
+              <p class="field-error">Please enter a valid email address.</p>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span class="n">5</span> Permission</legend>
+            <div class="group" data-group>
+              <div class="permission">
+                <p>My parent/guardian is aware of this expression of interest and gives permission for me
+                   to attend the 2-day White Card + Construction Try-a-Trade program. I understand this is
+                   an expression of interest only — a formal consent form must be completed and returned to
+                   secure a place, and places are allocated in order of paperwork returned.</p>
+                <label class="opt-row">
+                  <input type="checkbox" name="Permission" value="Yes" required>
+                  <span>I agree to the statement above. <span class="req" aria-hidden="true">*</span></span>
+                </label>
+              </div>
+              <p class="field-error">You'll need to tick this to submit.</p>
+            </div>
+          </fieldset>
+
+          <p class="summary-error" id="summaryError">Please fix the highlighted fields above, then submit again.</p>
+
+          <div class="actions">
+            <button type="submit" class="submit" id="submitBtn">Submit expression of interest</button>
+          </div>
+        </form>
+
+        <div class="result" id="result" role="status" aria-live="polite" tabindex="-1">
+          <h3 id="resultTitle"></h3>
+          <div id="resultBody"></div>
+        </div>
+      </div>
+
+      <p class="form-contact">Need a hand, or already submitted? Contact Rachael Savage
+        (<a href="mailto:Rachael.Savage761@schools.sa.edu.au">Rachael.Savage761@schools.sa.edu.au</a>)
+        or Jordan Champness
+        (<a href="mailto:Jordan.Champness823@schools.sa.edu.au">Jordan.Champness823@schools.sa.edu.au</a>).</p>
+    </div>
+  </section>
+
+<script>
+/* ============================================================
+   CONFIG — paste the Flow 1 HTTP POST URL between the quotes.
+   Visible in page source by design (client-side direct POST);
+   regenerate the SAS URL in Power Automate if ever abused.
+   ============================================================ */
+const FLOW_URL = "https://default73bbf4e906884946aea9bd0bb40ecf.07.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/cef74d4e8f7f4b688c48788676753e06/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=kyKsJKXRKjudjkv860Pt3YWajbPV_If4V6628j0zaw4";
+
+const form = document.getElementById("eoi");
+const submitBtn = document.getElementById("submitBtn");
+const summaryError = document.getElementById("summaryError");
+const result = document.getElementById("result");
+const resultTitle = document.getElementById("resultTitle");
+const resultBody = document.getElementById("resultBody");
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const SCHOOL_EMAIL_RE = /@schools\.sa\.edu\.au\s*$/i;
+
+function clearState(){
+  form.querySelectorAll(".invalid").forEach(el => el.classList.remove("invalid"));
+  summaryError.classList.remove("show");
+}
+
+function validate(){
+  clearState();
+  let firstBad = null;
+
+  form.querySelectorAll("[data-field]").forEach(wrap => {
+    const input = wrap.querySelector("input,select");
+    if(!input) return;
+    const val = (input.value || "").trim();
+    let bad = false;
+    if(input.hasAttribute("required") && !val) bad = true;
+    if(!bad && wrap.dataset.validate === "email" && val && !EMAIL_RE.test(val)) bad = true;
+    // hard gate: student school email must be a @schools.sa.edu.au address
+    if(!bad && input.name === "StudentSchoolEmail" && val && !SCHOOL_EMAIL_RE.test(val)) bad = true;
+    // optional alt email — validate format only if something was typed
+    if(!bad && input.name === "StudentAltEmail" && val && !EMAIL_RE.test(val)){
+      bad = true; wrap.querySelector(".field-error").textContent = "Please enter a valid email address, or leave this blank.";
+    }
+    if(bad){ wrap.classList.add("invalid"); firstBad = firstBad || wrap; }
+  });
+
+  form.querySelectorAll("[data-group]").forEach(grp => {
+    const names = new Set([...grp.querySelectorAll("input")].map(i => i.name));
+    let ok = true;
+    names.forEach(name => { if(!form.querySelector(`input[name="${name}"]:checked`)) ok = false; });
+    if(!ok){ grp.classList.add("invalid"); firstBad = firstBad || grp; }
+  });
+
+  if(firstBad){
+    summaryError.classList.add("show");
+    firstBad.scrollIntoView({behavior:"smooth", block:"center"});
+    const f = firstBad.querySelector("input,select");
+    if(f) f.focus({preventScroll:true});
+    return false;
+  }
+  return true;
+}
+
+function collect(){
+  const data = {};
+  const fd = new FormData(form);
+  for(const [k,v] of fd.entries()){ data[k] = typeof v === "string" ? v.trim() : v; }
+  if(!("StudentAltEmail" in data)) data.StudentAltEmail = "";
+  data.Permission = form.querySelector('input[name="Permission"]').checked ? "Yes" : "No";
+  return data;
+}
+
+function showResult(kind, title, message){
+  result.className = "result show " + kind;
+  resultTitle.textContent = title;
+  resultBody.textContent = message || "";
+  result.focus();
+  result.scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  result.className = "result";
+  if(!validate()) return;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting…";
+
+  try{
+    const res = await fetch(FLOW_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(collect())
+    });
+
+    let payload = {};
+    try { payload = await res.json(); } catch(_) {}
+
+    // success ONLY on an explicit status:"success" from the flow.
+    // anything else -> loud failure. A false fail is acceptable; a false success is not.
+    if(payload && payload.status === "success"){
+      form.style.display = "none";
+      showResult("ok", "You're registered as interested", payload.message ||
+        "Thanks — your expression of interest is in. Watch your parent/carer's inbox for the paperwork and return instructions.");
+    } else if(payload && payload.status === "duplicate"){
+      showResult("dupe", "This email is already registered", payload.message);
+    } else {
+      throw new Error("Unexpected response");
+    }
+  } catch(err){
+    showResult("err", "That didn't go through",
+      "We couldn't confirm your submission. Please check your connection and try again. If it keeps happening, contact Rachael or Jordan using the details below.");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit expression of interest";
+    return;
+  }
+
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Submit expression of interest";
+});
+
+form.addEventListener("input", (e) => { const w = e.target.closest("[data-field],[data-group]"); if(w) w.classList.remove("invalid"); });
+form.addEventListener("change", (e) => { const w = e.target.closest("[data-field],[data-group]"); if(w) w.classList.remove("invalid"); });
+</script>
+</body>
+</html>
